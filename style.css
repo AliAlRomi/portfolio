@@ -22,9 +22,20 @@ html {
 }
 
 body {
+    min-height: 100vh;
     background:
-        radial-gradient(circle at top right, rgba(59, 130, 246, 0.12), transparent 30%),
+        radial-gradient(
+            circle at top right,
+            rgba(59, 130, 246, 0.14),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(37, 99, 235, 0.08),
+            transparent 28%
+        ),
         var(--background);
+
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.7;
@@ -51,6 +62,16 @@ a {
     background: rgba(8, 17, 31, 0.82);
     border-bottom: 1px solid var(--border);
     backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    transition:
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(8, 17, 31, 0.96);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
 }
 
 .logo {
@@ -62,19 +83,41 @@ a {
 
 .nav-links {
     display: flex;
+    align-items: center;
     gap: 28px;
     list-style: none;
 }
 
 .nav-links a {
+    position: relative;
     color: var(--muted);
     font-size: 0.95rem;
     text-decoration: none;
+
     transition: color 0.25s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+
+    width: 0;
+    height: 2px;
+
+    background: var(--accent);
+    border-radius: 999px;
+
+    transition: width 0.25s ease;
 }
 
 .nav-links a:hover {
     color: var(--text);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
 }
 
 .hero {
@@ -84,6 +127,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+
     text-align: center;
 }
 
@@ -103,6 +147,7 @@ a {
 
 .hero h1 {
     margin-top: 14px;
+
     font-size: clamp(3.5rem, 9vw, 7rem);
     line-height: 1;
 }
@@ -113,6 +158,7 @@ a {
 
 .hero h2 {
     margin-top: 18px;
+
     color: #d9e5f6;
     font-size: clamp(1.5rem, 4vw, 2.6rem);
 }
@@ -120,6 +166,7 @@ a {
 .hero-description {
     max-width: 650px;
     margin: 24px auto 0;
+
     color: var(--muted);
     font-size: 1.1rem;
 }
@@ -187,17 +234,20 @@ section {
     width: min(1100px, 88%);
     margin: 0 auto;
     padding: 105px 0;
+
     text-align: center;
 }
 
 section h2 {
     margin-top: 8px;
+
     font-size: clamp(2rem, 5vw, 3.2rem);
 }
 
 .section-description {
     max-width: 760px;
     margin: 24px auto 0;
+
     color: var(--muted);
     font-size: 1.06rem;
 }
@@ -205,6 +255,7 @@ section h2 {
 .skills-grid,
 .projects-grid {
     margin-top: 46px;
+
     display: grid;
     gap: 22px;
 }
@@ -213,13 +264,18 @@ section h2 {
     grid-template-columns: repeat(4, 1fr);
 }
 
+.projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
 .skill-card,
 .project-card {
-    background: linear-gradient(
-        145deg,
-        rgba(23, 37, 59, 0.96),
-        rgba(16, 28, 47, 0.96)
-    );
+    background:
+        linear-gradient(
+            145deg,
+            rgba(23, 37, 59, 0.96),
+            rgba(16, 28, 47, 0.96)
+        );
 
     border: 1px solid var(--border);
     border-radius: 18px;
@@ -227,13 +283,15 @@ section h2 {
 
     transition:
         transform 0.25s ease,
-        border-color 0.25s ease;
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .skill-card:hover,
 .project-card:hover {
     transform: translateY(-7px);
     border-color: rgba(59, 130, 246, 0.45);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.32);
 }
 
 .skill-card {
@@ -250,13 +308,32 @@ section h2 {
     color: var(--muted);
 }
 
-.projects-grid {
-    grid-template-columns: repeat(3, 1fr);
+.project-card {
+    position: relative;
+
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+    overflow: hidden;
 }
 
-.project-card {
-    padding: 30px;
-    text-align: left;
+.project-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: linear-gradient(
+        90deg,
+        var(--accent),
+        transparent
+    );
 }
 
 .project-number {
@@ -267,17 +344,20 @@ section h2 {
 
 .project-card h3 {
     margin-top: 12px;
+
     font-size: 1.45rem;
+    line-height: 1.35;
 }
 
 .project-card > p {
-    min-height: 120px;
     margin-top: 14px;
+
     color: var(--muted);
+    flex-grow: 1;
 }
 
 .project-tags {
-    margin-top: 20px;
+    margin-top: 22px;
 
     display: flex;
     flex-wrap: wrap;
@@ -297,25 +377,47 @@ section h2 {
 
 .project-links {
     margin-top: 25px;
+
     display: flex;
-    gap: 18px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .project-links a {
+    padding: 9px 15px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
     color: var(--text);
+    font-size: 0.9rem;
     font-weight: 700;
     text-decoration: none;
+
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.project-links a:first-child {
+    background: var(--accent);
+    border-color: var(--accent);
 }
 
 .project-links a:hover {
-    color: var(--accent);
+    transform: translateY(-2px);
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
+    color: white;
 }
 
 #contact {
     padding-bottom: 120px;
 }
 
-#contact .button {
+#contact .hero-buttons {
     margin-top: 32px;
 }
 
@@ -324,9 +426,11 @@ footer {
 
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 20px;
 
     border-top: 1px solid var(--border);
+
     color: var(--muted);
     font-size: 0.9rem;
 }
@@ -338,10 +442,6 @@ footer {
 
     .projects-grid {
         grid-template-columns: 1fr;
-    }
-
-    .project-card > p {
-        min-height: auto;
     }
 }
 
@@ -393,6 +493,14 @@ footer {
         gap: 8px;
     }
 
+    .nav-links a {
+        font-size: 0.78rem;
+    }
+
+    .hero h1 {
+        font-size: clamp(3rem, 17vw, 4.5rem);
+    }
+
     .hero-buttons {
         flex-direction: column;
         align-items: center;
@@ -401,5 +509,18 @@ footer {
     .button {
         width: 100%;
         max-width: 270px;
+    }
+
+    .project-card {
+        padding: 24px;
+    }
+
+    .project-links {
+        flex-direction: column;
+    }
+
+    .project-links a {
+        width: 100%;
+        text-align: center;
     }
 }
